@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Properties>
+        <Property name="log_path">./logs</Property>
+        <Property name="file_name">logs</Property>
+    </Properties>
+    <Appenders>
+        <RollingFile name="ROLLING_FILE" fileName="${log_path}/${file_name}.log" filePattern="${log_path}/${file_name}-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss,SSS}:   %t-%-5p-%c:    %m%n" />
+            <Policies>
+                <SizeBasedTriggeringPolicy size="100 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="2" />
+        </RollingFile>
+
+        <File name="LOG_FILE" fileName="${log_path}/${file_name}.log" append="false">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss,SSS}:   %t-%-5p-%c:    %m%n"/>
+        </File>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss,SSS}:   %t-%-5p-%c:    %m%n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Logger name="org.apache.log4j.xml" level="debug">
+            <AppenderRef ref="LOG_FILE"/>
+        </Logger>
+        <Logger name="org.apache.log4j.xml" level="debug">
+            <AppenderRef ref="STDOUT"/>
+        </Logger>
+        <Root level="debug">
+            <AppenderRef ref="ROLLING_FILE"/>
+        </Root>
+    </Loggers>
+</Configuration>
