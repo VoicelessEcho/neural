@@ -283,7 +283,7 @@ public class GameGrid {
         }
 
         //is move legal?
-        if (!legalMovePosition(xDir1, yDir1)){
+        if (!legalMovePosition(xDir1, yDir1, grid[x][y])){
             return score;
         }
 
@@ -355,7 +355,7 @@ public class GameGrid {
         }
 
         //is move legal?
-        if (!legalMovePosition(xDir1, yDir1)){
+        if (!legalMovePosition(xDir1, yDir1, grid[x][y])){
             return score;
         }
 
@@ -485,8 +485,31 @@ public class GameGrid {
      * @param y
      * @return true if position h >= 0 && < 4
      */
-    public boolean legalMovePosition(int x, int y){
-        return grid[x][y] >= 0 && grid[x][y] < 4;
+    public boolean legalMovePosition(int x, int y, int currentH){
+        boolean legalMove = false;
+        //if in playable h
+        if (grid[x][y] >= 0 && grid[x][y] < 4){
+            int gridH = grid[x][y];
+            //if gridH id greater then current
+            if (gridH > currentH){
+                if (gridH - currentH == 1){
+                    legalMove = true;
+                }
+                else {
+                    legalMove = false;
+                }
+            }
+            //going down or to the same level
+            else {
+                legalMove = true;
+            }
+        }
+        else {
+            legalMove = false;
+        }
+
+
+        return legalMove;
     }
 
     /**

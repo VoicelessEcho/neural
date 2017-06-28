@@ -16,6 +16,7 @@ public class NeuralNet implements Serializable{
     public int generationNumber;
     public int parent1;
     public int parent2;
+    public int score;
 
     public enum Dir {N, W, E, S, NW, NE, SW, SE}
 
@@ -104,9 +105,36 @@ public class NeuralNet implements Serializable{
         };
     }
 
+    public NeuralNet cloneNet() {
+        List<NeuralLayer> layers_ = new ArrayList<>();
+        for (int i = 0; i < layers.size(); i++) {
+            NeuralLayer layer = layers.get(i);
+            NeuralLayer layer_ = layer.cloneLayer();
+            layers_.add(layer_);
+        }
+
+        NeuralOutput[] outputs_ = new NeuralOutput[outputs.length];
+        for (int i = 0; i < outputs.length; i++) {
+            outputs_[i] = (NeuralOutput) outputs[i].cloneNode();
+        }
+
+        NeuralNet clone = new NeuralNet(layers_, outputs_);
+        return clone;
+    }
+
+    public void mutateNet() {
+        for (int i = 0; i < layers.size(); i++) {
+            NeuralLayer layer = layers.get(i);
+            layer.mutateLayer();
+        }
+        for (int i = 0; i < outputs.length; i++) {
+            outputs[i].mutateNode();
+        }
+    }
+
     public NeuralOutput execute(int[] inputs){
 
-        float[] prevOutput = new float[inputs.length];
+        double[] prevOutput = new double[inputs.length];
         for (int i = 0; i < inputs.length; i++) {
             prevOutput[i] = inputs[i];
         }
@@ -114,15 +142,15 @@ public class NeuralNet implements Serializable{
         //calc hidden
         for (int i = 0; i < layers.size(); i++) {
             NeuralLayer layer = layers.get(i);
-            float [] outputs = layer.computeOutputs(this, prevOutput);
+            double [] outputs = layer.computeOutputs(this, prevOutput);
             prevOutput = outputs;
         }
 
         //calc outputs
-        float[] outValues = computeOutputs(prevOutput);
+        double[] outValues = computeOutputs(prevOutput);
 
         int index = 0;
-        float max = Float.MIN_VALUE;
+        double max = Double.MIN_VALUE;
         for (int i = 0; i < outValues.length; i++) {
             if (outValues[i] > max){
                 max = outValues[i];
@@ -151,8 +179,8 @@ public class NeuralNet implements Serializable{
         this.outputs = outputs;
     }
 
-    public float[] computeOutputs(float[] inputs) {
-        float[] outputs = new float[this.outputs.length];
+    public double[] computeOutputs(double[] inputs) {
+        double[] outputs = new double[this.outputs.length];
         for (int i = 0; i < this.outputs.length; i++) {
             NeuralNode node = this.outputs[i];
             outputs[i] = node.computeOutputs(this, inputs);

@@ -2,6 +2,9 @@ package com.neural.main;
 
 import com.google.gson.Gson;
 import com.neural.game.GameGrid;
+import com.neural.workers.BreederWorker;
+import com.neural.workers.GeneratorWorker;
+import com.neural.workers.MutatorWorker;
 import com.neural.workers.NetWorker;
 import org.apache.log4j.Logger;
 
@@ -30,7 +33,7 @@ public class Controller {
     public FitnessTracker fitnessTracker;
     public NeuralGenerator generator;
     public AtomicInteger workerCount;
-    public int generation = 0;
+    public int generation;
 
     public List<GameGrid> loadedMaps = new ArrayList<>();
 
@@ -38,7 +41,7 @@ public class Controller {
     public void start(String fname, String generationNumber) {
         logger.info("Starting...");
 
-
+        generation = 0;
         int genCount = 1000000;
 
         generator = new NeuralGenerator();
@@ -48,12 +51,13 @@ public class Controller {
         }
         else {
             loadGeneration(fname, Integer.parseInt(generationNumber));
+            generation = Integer.parseInt(generationNumber);
         }
         fitnessTracker = new FitnessTracker();
 
         loadMaps();
 
-        for (generation = 0; generation < genCount; generation++) {
+        for (generation = generation; generation < generation + genCount; generation++) {
             maps.clear();
             for (int i = 0; i < mapsCount; i++) {
                 GameGrid grid = new GameGrid();
@@ -91,26 +95,52 @@ public class Controller {
             File file = new File("./generations/generation_" + String.valueOf(generation) + ".txt");
             String bestJson = gson.toJson(bestOfBest);
 
-            try {
-                List<String> lines = new ArrayList<>();
-                lines.add(bestJson);
-                Files.write(file.toPath(), lines, Charset.forName("UTF-8"));
+            if (generation%1000 == 0) {
+                try {
+                    List<String> lines = new ArrayList<>();
+                    lines.add(bestJson);
+                    Files.write(file.toPath(), lines, Charset.forName("UTF-8"));
 
-            } catch (IOException e) {
-                e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
             String jsonStr = gson.toJson(fitnessTracker.getScores());
             logger.info("GENERATION " + generation);
             logger.info(jsonStr);
-            logger.info("BEST:");
-            logger.info(bestJson);
+            //logger.info("BEST:");
+            //logger.info(bestJson);
 
             System.out.println("--------- breeding ---------------");
-            //generation = generation + 1;
+
+            workerCount.addAndGet(3);
+            BreederWorker bw = new BreederWorker(bestOfBest, generator, workerCount);
+            GeneratorWorker gw = new GeneratorWorker(10, generator, generation, workerCount);
+            MutatorWorker mw = new MutatorWorker(bestOfBest, generator, workerCount);
+
+            executorService.submit(bw);
+            executorService.submit(gw);
+            executorService.submit(mw);
+            while (workerCount.get() != 0) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("Still breeding... " + String.valueOf(workerCount.get()));
+            }
+
+            generator.neuralNets.clear();
+            generator.neuralNets.addAll(bw.getNets());
+            generator.neuralNets.addAll(gw.getNets());
+            generator.neuralNets.addAll(mw.getNets());
+
+
+            /*//generation = generation + 1;
             generator.breedNewGeneration(bestOfBest);
             for (int i = 0; i < 10; i++) {
                 generator.neuralNets.add(generator.generateRandomNet(generation));
-            }
+            }*/
             System.out.println("----------------------------------");
             System.out.println("----GENERATION: " + String.valueOf(generation) + " ---------");
 

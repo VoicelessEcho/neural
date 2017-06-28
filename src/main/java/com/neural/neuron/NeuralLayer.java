@@ -39,8 +39,8 @@ public class NeuralLayer implements Serializable {
         this.lastLayer = lastLayer;
     }
 
-    public float[] computeOutputs(NeuralNet net, float[] inputs) {
-        float[] outputs = new float[layer.size()];
+    public double[] computeOutputs(NeuralNet net, double[] inputs) {
+        double[] outputs = new double[layer.size()];
         for (int i = 0; i < layer.size(); i++) {
             NeuralNode node = layer.get(i);
             outputs[i] = node.computeOutputs(net, inputs);
@@ -147,5 +147,24 @@ public class NeuralLayer implements Serializable {
         }
 
         return this.layer.size();
+    }
+
+
+    public NeuralLayer cloneLayer(){
+        List<NeuralNode> layer_c = new ArrayList<>();
+        for (int i = 0; i < layer.size(); i++) {
+            NeuralNode node_ = layer.get(i).cloneNode();
+            layer_c.add(node_);
+        }
+
+        NeuralLayer layer_ = new NeuralLayer(layer_c, false);
+        return layer_;
+    }
+
+    public void mutateLayer() {
+        for (int i = 0; i < layer.size(); i++) {
+            NeuralNode node = layer.get(i);
+            node.mutateNode();
+        }
     }
 }

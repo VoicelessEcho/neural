@@ -26,9 +26,9 @@ public class NeuralGenerator {
         NeuralNet randomNet = new NeuralNet();
 
         int minHiddenLayers = 1;
-        int maxHiddenLayers = 20;
+        int maxHiddenLayers = 5;
         int minNodes = 1;
-        int maxNodes = 30;
+        int maxNodes = 70;
         ThreadLocalRandom random = ThreadLocalRandom.current();
         int layersCount = random.nextInt(minHiddenLayers, maxHiddenLayers + 1);
         int prevCount = 49;
@@ -96,7 +96,20 @@ public class NeuralGenerator {
 
     //--------------------------------------------------------------------------------------------------------
 
-    public void breedNewGeneration(List<NeuralNet> bestNetworks){
+    public List<NeuralNet> mutateGeneration(List<NeuralNet> bestNetworks){
+        List<NeuralNet> newGeneration = new ArrayList<>();
+        for (int i = 0; i < bestNetworks.size(); i++) {
+            for  (int j = 0; j < 9; j++) {
+                NeuralNet net = bestNetworks.get(i).cloneNet();
+                net.mutateNet();
+                newGeneration.add(net);
+            }
+        }
+        return newGeneration;
+    }
+
+
+    public List<NeuralNet> breedNewGeneration(List<NeuralNet> bestNetworks){
         List<NeuralNet> newGeneration = new ArrayList<>();
         newGeneration.addAll(bestNetworks);
 
@@ -118,8 +131,8 @@ public class NeuralGenerator {
                 net_combined.fixLinks();
             }
         }
-
-        neuralNets = newGeneration;
+        return newGeneration;
+        //neuralNets = newGeneration;
     }
 
     private NeuralNet combineNetworks(NeuralNet net_i, NeuralNet net_j) {

@@ -39,14 +39,17 @@ public class NeuralNode implements Serializable{
         this.inWeights = inWeights;
     }
 
-    public float computeOutputs(NeuralNet net, float[] inputs) {
+    public double computeOutputs(NeuralNet net, double[] inputs) {
         try {
-            float out = 0;
+            double out = 0;
             for (Integer index : this.inputs) {
-                float in = inputs[index];
+                double in = inputs[index];
                 float inW = inWeights.get(index);
                 out += in * inW;
             }
+
+            out = Math.tanh(out);
+
             return out;
         }
         catch (Exception e){
@@ -122,6 +125,27 @@ public class NeuralNode implements Serializable{
                 inWeights.remove(in);
                 inputs.add(newIn);
                 inWeights.put(newIn, w);
+            }
+        }
+    }
+
+    public void mutateNode() {
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+        int mutatePercent = 5;
+        for (Integer in : inputs) {
+            int mutate = random.nextInt(100);
+            if (mutate < mutatePercent){
+                float inW = inWeights.get(in);
+
+                boolean add = random.nextBoolean();
+                int mutateW = random.nextInt(1, 6);
+                if (add){
+                    inW = inW + (inW % 100)*mutateW;
+                }
+                else {
+                    inW = inW - (inW % 100)*mutateW;
+                }
+                inWeights.put(in, inW);
             }
         }
     }

@@ -71,7 +71,9 @@ public class FitnessTracker implements Serializable{
         for (int j = 0; j < count; j++) {
             int score = unsortedScores.remove(unsortedScores.size() - 1);
             List<NeuralNet> nets = neuralNets.get(score);
-            bestNets.add(nets.remove(0));
+            NeuralNet n = nets.remove(0);
+            n.score = score;
+            bestNets.add(n);
         }
 
         return bestNets;
