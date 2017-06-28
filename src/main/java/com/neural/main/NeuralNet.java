@@ -261,7 +261,7 @@ public class NeuralNet implements Serializable{
                 }
                 NeuralLayer newLayer = new NeuralLayer(nodeList, false);
                 mergedHidden.add(newLayer);
-                if (mergedHidden.size() > 20){
+                if (mergedHidden.size() > 5){
                     System.out.println("bugas");
                 }
                 prevCount = newLayer.expandLayer(prevCount, newLayer);

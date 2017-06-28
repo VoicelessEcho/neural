@@ -74,7 +74,7 @@ public class NeuralLayer implements Serializable {
             }
         }
         NeuralLayer layer_ = new NeuralLayer(nodes, this.lastLayer);
-        if (layer_.layer.size() > 30){
+        if (layer_.layer.size() > 70){
             System.out.println("bugas");
         }
         return layer_;
@@ -95,7 +95,7 @@ public class NeuralLayer implements Serializable {
         if (layer_.size() > 1) {
             expandSize = random.nextInt(1, layer_.size() + 1);
         }
-        if (expandSize > 50){
+        if (expandSize > 70){
             System.out.println("bugas");
         }
         for (int i = 0; i < expandSize; i++) {
@@ -139,7 +139,7 @@ public class NeuralLayer implements Serializable {
 
     public int fixLinks(NeuralNet parent, int prevCount) {
         for (int i = 0; i < layer.size(); i++) {
-            if (layer.size() > 60){
+            if (layer.size() > 70){
                 System.out.println("bugas");
             }
             NeuralNode node = layer.get(i);

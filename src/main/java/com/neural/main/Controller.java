@@ -37,7 +37,7 @@ public class Controller {
 
     public List<GameGrid> loadedMaps = new ArrayList<>();
 
-    public ExecutorService executorService = Executors.newFixedThreadPool(8);
+    public ExecutorService executorService = Executors.newFixedThreadPool(6);
     public void start(String fname, String generationNumber) {
         logger.info("Starting...");
 
@@ -95,7 +95,7 @@ public class Controller {
             File file = new File("./generations/generation_" + String.valueOf(generation) + ".txt");
             String bestJson = gson.toJson(bestOfBest);
 
-            if (generation%1000 == 0) {
+            if (generation%10 == 0) {
                 try {
                     List<String> lines = new ArrayList<>();
                     lines.add(bestJson);

@@ -99,7 +99,7 @@ public class NeuralGenerator {
     public List<NeuralNet> mutateGeneration(List<NeuralNet> bestNetworks){
         List<NeuralNet> newGeneration = new ArrayList<>();
         for (int i = 0; i < bestNetworks.size(); i++) {
-            for  (int j = 0; j < 9; j++) {
+            for  (int j = 0; j < 100; j++) {
                 NeuralNet net = bestNetworks.get(i).cloneNet();
                 net.mutateNet();
                 newGeneration.add(net);
