@@ -131,10 +131,9 @@ public class GameGrid {
         }
         int[] arrGrid = getGridAsArray(currentGrid);
         int[] arrP1 = new int[arrGrid.length + 1];
-        arrP1[0] = p1Score + 100;
-        arrP1[1] = p2Score + 100;
-        for (int i = 0; i < arrGrid.length - 2; i++) {
-            arrP1[i + 2] = arrGrid[i];
+        arrP1[0] = p1Score + p2Score;
+        for (int i = 0; i < arrGrid.length - 1; i++) {
+            arrP1[i + 1] = arrGrid[i];
         }
         return arrP1;
     }
@@ -174,10 +173,9 @@ public class GameGrid {
         }
         int[] arrGrid = getGridAsArray(currentGrid);
         int[] arrP2 = new int[arrGrid.length + 1];
-        arrP2[0] = p2Score + 100;
-        arrP2[1] = p1Score + 100;
-        for (int i = 0; i < arrGrid.length - 2; i++) {
-            arrP2[i + 2] = arrGrid[i];
+        arrP2[0] = p2Score + p1Score;
+        for (int i = 0; i < arrGrid.length - 1; i++) {
+            arrP2[i + 1] = arrGrid[i];
         }
         return arrP2;
     }

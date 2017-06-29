@@ -18,7 +18,7 @@ public class NeuralNet implements Serializable{
     public int parent2;
     public int score;
 
-    public enum Dir {N, W, E, S, NW, NE, SW, SE}
+    public enum Dir {N, W, E, S, NW, NE, SW, SE, None}
 
     public List<NeuralLayer> layers;
     public NeuralOutput[] outputs;
@@ -31,77 +31,23 @@ public class NeuralNet implements Serializable{
     public NeuralNet() {
         layers = new ArrayList<>();
         outputs = new NeuralOutput[]{
-                new NeuralOutput(Dir.N, Dir.N),
-                new NeuralOutput(Dir.N, Dir.W),
-                new NeuralOutput(Dir.N, Dir.E),
-                new NeuralOutput(Dir.N, Dir.S),
-                new NeuralOutput(Dir.N, Dir.NW),
-                new NeuralOutput(Dir.N, Dir.NE),
-                new NeuralOutput(Dir.N, Dir.SW),
-                new NeuralOutput(Dir.N, Dir.SE),
+                new NeuralOutput(Dir.N, Dir.None),
+                new NeuralOutput(Dir.E, Dir.None),
+                new NeuralOutput(Dir.S, Dir.None),
+                new NeuralOutput(Dir.W, Dir.None),
+                new NeuralOutput(Dir.NE, Dir.None),
+                new NeuralOutput(Dir.NW, Dir.None),
+                new NeuralOutput(Dir.SE, Dir.None),
+                new NeuralOutput(Dir.SW, Dir.None),
 
-                new NeuralOutput(Dir.W, Dir.N),
-                new NeuralOutput(Dir.W, Dir.W),
-                new NeuralOutput(Dir.W, Dir.E),
-                new NeuralOutput(Dir.W, Dir.S),
-                new NeuralOutput(Dir.W, Dir.NW),
-                new NeuralOutput(Dir.W, Dir.NE),
-                new NeuralOutput(Dir.W, Dir.SW),
-                new NeuralOutput(Dir.W, Dir.SE),
-
-                new NeuralOutput(Dir.E, Dir.N),
-                new NeuralOutput(Dir.E, Dir.W),
-                new NeuralOutput(Dir.E, Dir.E),
-                new NeuralOutput(Dir.E, Dir.S),
-                new NeuralOutput(Dir.E, Dir.NW),
-                new NeuralOutput(Dir.E, Dir.NE),
-                new NeuralOutput(Dir.E, Dir.SW),
-                new NeuralOutput(Dir.E, Dir.SE),
-
-                new NeuralOutput(Dir.S, Dir.N),
-                new NeuralOutput(Dir.S, Dir.W),
-                new NeuralOutput(Dir.S, Dir.E),
-                new NeuralOutput(Dir.S, Dir.S),
-                new NeuralOutput(Dir.S, Dir.NW),
-                new NeuralOutput(Dir.S, Dir.NE),
-                new NeuralOutput(Dir.S, Dir.SW),
-                new NeuralOutput(Dir.S, Dir.SE),
-
-                new NeuralOutput(Dir.NE, Dir.N),
-                new NeuralOutput(Dir.NE, Dir.W),
-                new NeuralOutput(Dir.NE, Dir.E),
-                new NeuralOutput(Dir.NE, Dir.S),
-                new NeuralOutput(Dir.NE, Dir.NW),
-                new NeuralOutput(Dir.NE, Dir.NE),
-                new NeuralOutput(Dir.NE, Dir.SW),
-                new NeuralOutput(Dir.NE, Dir.SE),
-
-                new NeuralOutput(Dir.NW, Dir.N),
-                new NeuralOutput(Dir.NW, Dir.W),
-                new NeuralOutput(Dir.NW, Dir.E),
-                new NeuralOutput(Dir.NW, Dir.S),
-                new NeuralOutput(Dir.NW, Dir.NW),
-                new NeuralOutput(Dir.NW, Dir.NE),
-                new NeuralOutput(Dir.NW, Dir.SW),
-                new NeuralOutput(Dir.NW, Dir.SE),
-
-                new NeuralOutput(Dir.SW, Dir.N),
-                new NeuralOutput(Dir.SW, Dir.W),
-                new NeuralOutput(Dir.SW, Dir.E),
-                new NeuralOutput(Dir.SW, Dir.S),
-                new NeuralOutput(Dir.SW, Dir.NW),
-                new NeuralOutput(Dir.SW, Dir.NE),
-                new NeuralOutput(Dir.SW, Dir.SW),
-                new NeuralOutput(Dir.SW, Dir.SE),
-
-                new NeuralOutput(Dir.SE, Dir.N),
-                new NeuralOutput(Dir.SE, Dir.W),
-                new NeuralOutput(Dir.SE, Dir.E),
-                new NeuralOutput(Dir.SE, Dir.S),
-                new NeuralOutput(Dir.SE, Dir.NW),
-                new NeuralOutput(Dir.SE, Dir.NE),
-                new NeuralOutput(Dir.SE, Dir.SW),
-                new NeuralOutput(Dir.SE, Dir.SE),
+                new NeuralOutput(Dir.None, Dir.N),
+                new NeuralOutput(Dir.None, Dir.E),
+                new NeuralOutput(Dir.None, Dir.S),
+                new NeuralOutput(Dir.None, Dir.W),
+                new NeuralOutput(Dir.None, Dir.NE),
+                new NeuralOutput(Dir.None, Dir.NW),
+                new NeuralOutput(Dir.None, Dir.SE),
+                new NeuralOutput(Dir.None, Dir.SW)
         };
     }
 
@@ -132,7 +78,7 @@ public class NeuralNet implements Serializable{
         }
     }
 
-    public NeuralOutput execute(int[] inputs){
+    public NeuralOutput[] execute(int[] inputs){
 
         double[] prevOutput = new double[inputs.length];
         for (int i = 0; i < inputs.length; i++) {
@@ -149,9 +95,11 @@ public class NeuralNet implements Serializable{
         //calc outputs
         double[] outValues = computeOutputs(prevOutput);
 
+        NeuralOutput[] outs = new NeuralOutput[2];
+
         int index = 0;
         double max = Double.MIN_VALUE;
-        for (int i = 0; i < outValues.length; i++) {
+        for (int i = 0; i < outValues.length / 2; i++) {
             if (outValues[i] > max){
                 max = outValues[i];
                 index = i;
@@ -159,8 +107,21 @@ public class NeuralNet implements Serializable{
         }
 
         NeuralOutput node = this.outputs[index];
+        outs[0] = node;
 
-        return node;
+        index = 0;
+        max = Double.MIN_VALUE;
+        for (int i = outValues.length / 2; i < outValues.length; i++) {
+            if (outValues[i] > max){
+                max = outValues[i];
+                index = i;
+            }
+        }
+
+        NeuralOutput node_ = this.outputs[index];
+        outs[1] = node_;
+
+        return outs;
     }
 
     public List<NeuralLayer> getLayers() {

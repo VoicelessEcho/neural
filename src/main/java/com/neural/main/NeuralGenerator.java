@@ -26,12 +26,12 @@ public class NeuralGenerator {
         NeuralNet randomNet = new NeuralNet();
 
         int minHiddenLayers = 1;
-        int maxHiddenLayers = 5;
+        int maxHiddenLayers = 4;
         int minNodes = 1;
-        int maxNodes = 70;
+        int maxNodes = 50;
         ThreadLocalRandom random = ThreadLocalRandom.current();
         int layersCount = random.nextInt(minHiddenLayers, maxHiddenLayers + 1);
-        int prevCount = 49;
+        int prevCount = 48;
 
         //generate hidden
         for (int i = 0; i < layersCount; i++) {
