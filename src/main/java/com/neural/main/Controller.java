@@ -39,7 +39,7 @@ public class Controller {
     public List<NeuralNet> prevBest = new ArrayList<>();
     public List<NeuralNet> allTimeBest = new ArrayList<>();
 
-    public ExecutorService executorService = Executors.newFixedThreadPool(6);
+    public ExecutorService executorService = Executors.newFixedThreadPool(4);
     public void start(String fname, String generationNumber) {
         logger.info("Starting...");
 
