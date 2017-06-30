@@ -11,9 +11,9 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class NeuralNode implements Serializable{
     public Set<Integer> inputs;
-    public Map<Integer, Float> inWeights;
+    public Map<Integer, Double> inWeights;
 
-    public NeuralNode(Set<Integer> inputs, Map<Integer, Float> inWeights) {
+    public NeuralNode(Set<Integer> inputs, Map<Integer, Double> inWeights) {
         this.inputs = inputs;
         this.inWeights = inWeights;
     }
@@ -31,11 +31,11 @@ public class NeuralNode implements Serializable{
         this.inputs = inputs;
     }
 
-    public Map<Integer, Float> getInWeights() {
+    public Map<Integer, Double> getInWeights() {
         return inWeights;
     }
 
-    public void setInWeights(Map<Integer, Float> inWeights) {
+    public void setInWeights(Map<Integer, Double> inWeights) {
         this.inWeights = inWeights;
     }
 
@@ -44,7 +44,7 @@ public class NeuralNode implements Serializable{
             double out = 0;
             for (Integer index : this.inputs) {
                 double in = inputs[index];
-                float inW = inWeights.get(index);
+                double inW = inWeights.get(index);
                 out += in * inW;
             }
 
@@ -63,10 +63,10 @@ public class NeuralNode implements Serializable{
     public NeuralNode cloneNode() {
         NeuralNode node = new NeuralNode();
         Set<Integer> nodeInputs = new HashSet<>();
-        Map<Integer, Float> nodeW = new HashMap<>();
+        Map<Integer, Double> nodeW = new HashMap<>();
         for (int input : inputs) {
             int index = new Integer(input);
-            float weight = new Float(inWeights.get(input));
+            double weight = new Float(inWeights.get(input));
 
             nodeInputs.add(index);
             nodeW.put(index, weight);
@@ -90,7 +90,7 @@ public class NeuralNode implements Serializable{
             if (input < prevCount){
                 int newWTest = random.nextInt(1, 100);
                 if (newWTest <= newWPercent){
-                    inWeights.put(input, random.nextFloat());
+                    inWeights.put(input, random.nextDouble());
                 }
             }
             else {
@@ -101,7 +101,7 @@ public class NeuralNode implements Serializable{
                 }
                 else {
                     inputs.remove(input);
-                    float w = inWeights.remove(input);
+                    double w = inWeights.remove(input);
                     int newInput = 0;
                     if (prevCount > 1){
                         newInput = random.nextInt(prevCount);
@@ -118,7 +118,7 @@ public class NeuralNode implements Serializable{
         ins.addAll(inputs);
         for (int i = 0; i < ins.size(); i++) {
             int in = ins.get(i);
-            float w = inWeights.get(in);
+            double w = inWeights.get(in);
             if (in >= prevCount){
                 int newIn = random.nextInt(prevCount);
                 inputs.remove(in);
@@ -133,19 +133,30 @@ public class NeuralNode implements Serializable{
         ThreadLocalRandom random = ThreadLocalRandom.current();
         int mutatePercent = 5;
         for (Integer in : inputs) {
-            int mutate = random.nextInt(100);
-            if (mutate < mutatePercent){
-                float inW = inWeights.get(in);
-
-                boolean add = random.nextBoolean();
-                int mutateW = random.nextInt(1, 6);
-                if (add){
-                    inW = inW + (inW % 100)*mutateW;
-                }
-                else {
-                    inW = inW - (inW % 100)*mutateW;
+            double inW = inWeights.get(in);
+            if (inW == 0){
+                while (inW == 0) {
+                    inW = random.nextDouble();
                 }
                 inWeights.put(in, inW);
+            }
+            else {
+                int mutate = random.nextInt(100);
+                if (mutate < mutatePercent) {
+
+
+                    boolean add = random.nextBoolean();
+                    int mutateW = random.nextInt(1, 6);
+                    if (add) {
+                        double mutateForce = (100 + mutateW) / 100;
+                        inW = inW * mutateForce;
+                    }
+                    else {
+                        double mutateForce = (100 - mutateW) / 100;
+                        inW = inW * mutateForce;
+                    }
+                    inWeights.put(in, inW);
+                }
             }
         }
     }

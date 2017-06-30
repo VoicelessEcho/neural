@@ -44,7 +44,7 @@ public class NeuralOutput extends NeuralNode implements Serializable{
         NeuralNode node = new NeuralOutput(dir1, dir2);
         for (int input : inputs) {
             int index = input;
-            float weight = inWeights.get(input);
+            double weight = inWeights.get(input);
             node.inputs.add(input);
             node.inWeights.put(index, weight);
         }

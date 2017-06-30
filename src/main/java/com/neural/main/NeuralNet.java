@@ -17,6 +17,8 @@ public class NeuralNet implements Serializable{
     public int parent1;
     public int parent2;
     public int score;
+    public GenType type = GenType.None;
+    public enum GenType {Generated, Mutated, Combined, None}
 
     public enum Dir {N, W, E, S, NW, NE, SW, SE, None}
 
@@ -163,13 +165,13 @@ public class NeuralNet implements Serializable{
     public List<NeuralOutput> getHalfOutputs(boolean up) {
         List<NeuralOutput> outs = new ArrayList<>();
         if (up){
-            for (int i = 0; i < 32; i++) {
+            for (int i = 0; i < 4; i++) {
                 NeuralOutput out = (NeuralOutput) outputs[i].cloneNode();
                 outs.add(out);
             }
         }
         else {
-            for (int i = 32; i < 64; i++) {
+            for (int i = 4; i < 8; i++) {
                 NeuralOutput out = (NeuralOutput) outputs[i].cloneNode();
                 outs.add(out);
             }

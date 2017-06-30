@@ -14,11 +14,13 @@ public class BreederWorker implements Runnable {
     public List<NeuralNet> nets = new ArrayList<>();
 
     public List<NeuralNet> betsOfBest;
+    public List<NeuralNet> allTimeBest;
     public NeuralGenerator generator;
     public AtomicInteger workerCount;
 
-    public BreederWorker(List<NeuralNet> betsOfBest, NeuralGenerator generator, AtomicInteger workerCount) {
+    public BreederWorker(List<NeuralNet> betsOfBest, List<NeuralNet> allTimeBest, NeuralGenerator generator, AtomicInteger workerCount) {
         this.betsOfBest = betsOfBest;
+        this.allTimeBest = allTimeBest;
         this.generator = generator;
         this.workerCount = workerCount;
     }
@@ -26,6 +28,7 @@ public class BreederWorker implements Runnable {
     @Override
     public void run() {
         nets.addAll(generator.breedNewGeneration(betsOfBest));
+        nets.addAll(generator.breedNewGeneration(allTimeBest));
         workerCount.decrementAndGet();
     }
 

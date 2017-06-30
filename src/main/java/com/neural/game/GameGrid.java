@@ -1,6 +1,7 @@
 package com.neural.game;
 
 import com.neural.main.NeuralNet;
+import com.neural.neuron.NeuralOutput;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -320,7 +321,7 @@ public class GameGrid {
 
         score += (dir1H * 2) + 1;
         if (dir1H == 3){
-            score += 10;
+            score += 1000;
             p1Score = p1Score + 1;
         }
         if (dir2H < 3) {
@@ -335,73 +336,81 @@ public class GameGrid {
         return score;
     }
 
-    public int validateAndExecuteP2Move(int unitIndex, NeuralNet.Dir dir1, NeuralNet.Dir dir2){
+    public int validateAndExecuteP2Move(int unitIndex, NeuralOutput[] moveOuts, NeuralOutput[] buildOuts){
         int score = 0;
-        Unit unit = p2Units.get(unitIndex);
+        for (int i = 0; i < buildOuts.length; i++) {
+            for (int j = 0; j < moveOuts.length; j++) {
+                NeuralNet.Dir dir1 = moveOuts[j].dir1;
+                NeuralNet.Dir dir2 = buildOuts[i].dir2;
 
-        int x = unit.x;
-        int y = unit.y;
+                Unit unit = p2Units.get(unitIndex);
 
-        int dir1H, dir2H;
+                int x = unit.x;
+                int y = unit.y;
 
-        int xDir1 = dirX(x, dir1);
-        int yDir1 = dirY(y, dir1);
+                int dir1H, dir2H;
 
-        //are coordinates in game area?
-        if (!isValidCoordinates(xDir1, yDir1)){
-            return score;
-        }
+                int xDir1 = dirX(x, dir1);
+                int yDir1 = dirY(y, dir1);
 
-        //is move legal?
-        if (!legalMovePosition(xDir1, yDir1, grid[x][y])){
-            return score;
-        }
+                //are coordinates in game area?
+                if (!isValidCoordinates(xDir1, yDir1)){
+                    continue;
+                }
 
-        //is position empty?
-        if (!nonOccupiedPosition(xDir1, yDir1, p2Units) || !nonOccupiedPosition(xDir1, yDir1, p1Units)){
-            return score;
-        }
+                //is move legal?
+                if (!legalMovePosition(xDir1, yDir1, grid[x][y])){
+                    continue;
+                }
 
-        int xDir2 = dirX(xDir1, dir2);
-        int yDir2 = dirY(yDir1, dir2);
+                //is position empty?
+                if (!nonOccupiedPosition(xDir1, yDir1, p2Units) || !nonOccupiedPosition(xDir1, yDir1, p1Units)){
+                    continue;
+                }
 
-        //are coordinates in game area?
-        if (!isValidCoordinates(xDir2, yDir2)){
-            return score;
-        }
-        //is available to build?
-        if (!legalBuildPosition(xDir2, yDir2)){
-            return score;
-        }
+                int xDir2 = dirX(xDir1, dir2);
+                int yDir2 = dirY(yDir1, dir2);
 
-        //is occupied by enemies?
-        if (!nonOccupiedPosition(xDir2, yDir2, p1Units)){
-            return score;
-        }
+                //are coordinates in game area?
+                if (!isValidCoordinates(xDir2, yDir2)){
+                    continue;
+                }
+                //is available to build?
+                if (!legalBuildPosition(xDir2, yDir2)){
+                    continue;
+                }
 
-        //is occupied by teamMates?
-        if (!nonOccupiedPosition(xDir2, yDir2, p2Units)){
-            //is occupied by self?
-            if (xDir2 != x || yDir2 != y){
+                //is occupied by enemies?
+                if (!nonOccupiedPosition(xDir2, yDir2, p1Units)){
+                    continue;
+                }
+
+                //is occupied by teamMates?
+                if (!nonOccupiedPosition(xDir2, yDir2, p2Units)){
+                    //is occupied by self?
+                    if (xDir2 != x || yDir2 != y){
+                        continue;
+                    }
+                }
+
+                dir1H = grid[xDir1][yDir1];
+                dir2H = grid[xDir2][yDir2];
+
+                score += (dir1H * 2) + 1;
+                if (dir1H == 3){
+                    score += 10;
+                    p2Score = p2Score + 1;
+                }
+                if (dir2H < 3) {
+                    score += dir2H + 1;
+                }
+
+                unit.x = xDir1;
+                unit.y = yDir1;
+
                 return score;
             }
         }
-
-        dir1H = grid[xDir1][yDir1];
-        dir2H = grid[xDir2][yDir2];
-
-        score += (dir1H * 2) + 1;
-        if (dir1H == 3){
-            score += 10;
-            p2Score = p2Score + 1;
-        }
-        if (dir2H < 3) {
-            score += dir2H + 1;
-        }
-
-        unit.x = xDir1;
-        unit.y = yDir1;
-
         return score;
     }
 

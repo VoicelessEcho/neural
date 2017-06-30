@@ -15,11 +15,13 @@ public class MutatorWorker implements Runnable {
 
 
     public List<NeuralNet> bestOfBest;
+    public List<NeuralNet> allTimeBest;
     public NeuralGenerator generator;
     public AtomicInteger workerCount;
 
-    public MutatorWorker(List<NeuralNet> bestOfBest, NeuralGenerator generator, AtomicInteger workerCount) {
+    public MutatorWorker(List<NeuralNet> bestOfBest, List<NeuralNet> allTimeBest, NeuralGenerator generator, AtomicInteger workerCount) {
         this.bestOfBest = bestOfBest;
+        this.allTimeBest = allTimeBest;
         this.generator = generator;
         this.workerCount = workerCount;
     }
@@ -27,6 +29,7 @@ public class MutatorWorker implements Runnable {
     @Override
     public void run() {
         nets.addAll(generator.mutateGeneration(bestOfBest));
+        nets.addAll(generator.mutateGeneration(allTimeBest));
         workerCount.decrementAndGet();
     }
 

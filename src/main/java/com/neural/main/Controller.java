@@ -28,7 +28,7 @@ public class Controller {
     List<GameGrid> maps = new ArrayList<>();
 
     public Gson gson = new Gson();
-    public int mapsCount = 7;
+    public int mapsCount = 0;
 
     public FitnessTracker fitnessTracker;
     public NeuralGenerator generator;
@@ -36,6 +36,8 @@ public class Controller {
     public int generation;
 
     public List<GameGrid> loadedMaps = new ArrayList<>();
+    public List<NeuralNet> prevBest = new ArrayList<>();
+    public List<NeuralNet> allTimeBest = new ArrayList<>();
 
     public ExecutorService executorService = Executors.newFixedThreadPool(6);
     public void start(String fname, String generationNumber) {
@@ -78,7 +80,7 @@ public class Controller {
 
             for (int i = 0; i < maps.size(); i++) {
                 workerCount.incrementAndGet();
-                NetWorker worker = new NetWorker(fitnessTracker, maps.get(i), i, workerCount);
+                NetWorker worker = new NetWorker(fitnessTracker, maps.get(i), i, workerCount, prevBest);
                 executorService.execute(worker);
             }
 
@@ -92,10 +94,26 @@ public class Controller {
             }
 
             List<NeuralNet> bestOfBest = fitnessTracker.getBestNetworks(10);
+
+            List<NeuralNet> newAllBest = new ArrayList<>();
+            newAllBest.addAll(setAllTimeBest(bestOfBest, allTimeBest));
+            allTimeBest.clear();
+            allTimeBest.addAll(newAllBest);
+
+            File fileBest = new File("./generations/generation_all_time_best.txt");
+            String bestAllTimeJson = gson.toJson(bestOfBest);
             File file = new File("./generations/generation_" + String.valueOf(generation) + ".txt");
             String bestJson = gson.toJson(bestOfBest);
+            try {
+                List<String> lines = new ArrayList<>();
+                lines.add(bestAllTimeJson);
+                Files.write(fileBest.toPath(), lines, Charset.forName("UTF-8"));
+            }
+            catch (IOException e){
+                e.printStackTrace();
+            }
 
-            if (generation%10 == 0) {
+            if (generation%100 == 0) {
                 try {
                     List<String> lines = new ArrayList<>();
                     lines.add(bestJson);
@@ -114,9 +132,13 @@ public class Controller {
             System.out.println("--------- breeding ---------------");
 
             workerCount.addAndGet(3);
-            BreederWorker bw = new BreederWorker(bestOfBest, generator, workerCount);
-            GeneratorWorker gw = new GeneratorWorker(10, generator, generation, workerCount);
-            MutatorWorker mw = new MutatorWorker(bestOfBest, generator, workerCount);
+
+            BreederWorker bw = new BreederWorker(bestOfBest, allTimeBest, generator, workerCount);
+            GeneratorWorker gw = new GeneratorWorker(1000, generator, generation, workerCount);
+            MutatorWorker mw = new MutatorWorker(bestOfBest, allTimeBest, generator, workerCount);
+
+            prevBest.clear();
+            prevBest.addAll(bestOfBest);
 
             executorService.submit(bw);
             executorService.submit(gw);
@@ -148,6 +170,35 @@ public class Controller {
         }
         //System.out.println(jsonStr);
         executorService.shutdown();
+    }
+
+    private List<NeuralNet> setAllTimeBest(List<NeuralNet> bestOfBest, List<NeuralNet> allTimeBest) {
+        List<NeuralNet> atb = new ArrayList<>();
+        atb.addAll(allTimeBest);
+
+        for (NeuralNet bestNet : bestOfBest) {
+            if (atb.size() < 10){
+                atb.add(bestNet);
+            }
+            else {
+                int minScore = Integer.MAX_VALUE;
+                int minIndex = 0;
+                for (int i = 0; i < atb.size(); i++) {
+                    NeuralNet abNet = atb.get(i);
+                    if (abNet.score < minScore){
+                        minScore = abNet.score;
+                        minIndex = i;
+                    }
+                }
+
+                if (bestNet.score > minScore){
+                    atb.remove(minIndex);
+                    atb.add(bestNet);
+                }
+            }
+        }
+
+        return atb;
     }
 
     private void loadGeneration(String fName, int generationNumber) {

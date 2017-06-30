@@ -28,6 +28,9 @@ public class GeneratorWorker implements Runnable{
     public void run() {
         for (int i = 0; i < genCount; i++) {
             nets.add(generator.generateRandomNet(generation));
+            if (i % 100 == 0) {
+                System.out.println("Generated net #" + String.valueOf(i));
+            }
         }
         workerCount.decrementAndGet();
     }

@@ -25,8 +25,8 @@ public class NeuralGenerator {
     public NeuralNet generateRandomNet(int generationNumber){
         NeuralNet randomNet = new NeuralNet();
 
-        int minHiddenLayers = 1;
-        int maxHiddenLayers = 4;
+        int minHiddenLayers = 0;
+        int maxHiddenLayers = 5;
         int minNodes = 1;
         int maxNodes = 50;
         ThreadLocalRandom random = ThreadLocalRandom.current();
@@ -54,13 +54,13 @@ public class NeuralGenerator {
         for (int i = 0; i < outputs.length; i++) {
             int linkCount = random.nextInt(1, prevCount + 1);
             Set<Integer> indexes = new HashSet<>();
-            Map<Integer, Float> inWeights = new HashMap<>();
+            Map<Integer, Double> inWeights = new HashMap<>();
             for (int j = 0; j < linkCount; j++) {
                 int index = 0;
                 if (prevCount > 1) {
                     index = random.nextInt(0, prevCount);
                 }
-                float inWeight = random.nextFloat();
+                double inWeight = random.nextDouble();
                 indexes.add(index);
                 inWeights.put(index, inWeight);
             }
@@ -71,20 +71,21 @@ public class NeuralGenerator {
         randomNet.generationNumber = generationNumber;
         randomNet.parent1 = -1;
         randomNet.parent2 = -1;
+        randomNet.type = NeuralNet.GenType.Generated;
         return randomNet;
     }
 
     private NeuralNode generateRandomNode(int prevCount, int linkCount) {
         ThreadLocalRandom random = ThreadLocalRandom.current();
         Set<Integer> indexes = new HashSet<>();
-        Map<Integer, Float> inWeights = new HashMap<>();
+        Map<Integer, Double> inWeights = new HashMap<>();
 
         for (int i = 0; i < linkCount; i++) {
             int index = 0;
             if (prevCount > 1) {
                 index = random.nextInt(0, prevCount);
             }
-            float inWeight = random.nextFloat();
+            double inWeight = random.nextDouble();
             indexes.add(index);
             inWeights.put(index, inWeight);
         }
@@ -102,8 +103,10 @@ public class NeuralGenerator {
             for  (int j = 0; j < 100; j++) {
                 NeuralNet net = bestNetworks.get(i).cloneNet();
                 net.mutateNet();
+                net.type = NeuralNet.GenType.Mutated;
                 newGeneration.add(net);
             }
+            System.out.println("Done mutating net #" + String.valueOf(i));
         }
         return newGeneration;
     }
@@ -116,20 +119,22 @@ public class NeuralGenerator {
         for (int i = 0; i < bestNetworks.size(); i++) {
             NeuralNet net_i = bestNetworks.get(i);
             for (int j = i + 1; j < bestNetworks.size(); j++) {
-                //System.out.println("Breading " + String.valueOf(i) + " " + String.valueOf(j));
+              //  System.out.println("Breading " + String.valueOf(i) + " " + String.valueOf(j));
                 NeuralNet net_j = bestNetworks.get(j);
-                //System.out.println("b1");
+              //  System.out.println("b1");
                 NeuralNet net_combined = combineNetworks(net_i, net_j);
-                //System.out.println("b2");
+               // System.out.println("b2");
                 net_combined.generationNumber = net_i.generationNumber + 1;
-                //System.out.println("b3");
+               // System.out.println("b3");
                 net_combined.parent1 = i;
                 net_combined.parent2 = j;
-                //System.out.println("b4");
+               // System.out.println("b4");
                 newGeneration.add(net_combined);
-                //System.out.println("b5");
+               // System.out.println("b5");
                 net_combined.fixLinks();
+                net_combined.type = NeuralNet.GenType.Combined;
             }
+            System.out.println("Done breeding net #" + String.valueOf(i));
         }
         return newGeneration;
         //neuralNets = newGeneration;

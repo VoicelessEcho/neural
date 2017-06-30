@@ -105,10 +105,10 @@ public class NeuralLayer implements Serializable {
                 linkCount = random.nextInt(1, prevCount + 1);
             }
             Set<Integer> inputs_ = new HashSet<>();
-            Map<Integer, Float> weights = new HashMap<>();
+            Map<Integer, Double> weights = new HashMap<>();
             for (int j = 0; j < linkCount; j++) {
                 int index = random.nextInt(prevCount);
-                float linkW = random.nextFloat();
+                double linkW = random.nextFloat();
 
                 inputs_.add(index);
                 weights.put(index, linkW);
