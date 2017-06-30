@@ -1,0 +1,218 @@
+public static NeuralNet createNet(){
+List<NeuralLayer> layers = new ArrayList<>();
+        //----layer #0----------------
+NeuralLayer l_0 = new NeuralLayer();
+layers.add(l_0);
+        //----node #0----------------
+NeuralNode node_l0_0 = new NeuralNode();
+node_l0_0.inputs.addAll(Arrays.asList(0, 1, 2, 3, 5, 8, 10, 11, 12, 15, 17, 19, 21, 22, 23, 25, 26, 27, 28, 32, 36, 37, 38, 40, 42, 44, 45, 46));
+double[] weights_i0_0 = new double[]{0.576808512210846f, 0.3904915153980255f, 0.3005903959274292f, 0.08857052028179169f, 0.6865154504776001f, 0.04381910711526871f, 0.17734868824481964f, 0.09269416332244873f, 0.17806991934776306f, 0.07467807829380035f, 0.11488375067710876f, 0.14330348372459412f, 0.27065011858940125f, 0.08040253072977066f, 0.1366201639175415f, 0.5734748244285583f, 0.6638078689575195f, 0.10998557507991791f, 0.14440834522247314f, 0.008269877173006535f, 0.3059239089488983f, 0.261220782995224f, 0.45691606402397156f, 0.2991725206375122f, 0.5133976340293884f, 0.10959649085998535f, 0.008519847877323627f, 0.20857878029346466f};
+setInWeights(node_l0_0, weights_i0_0);
+l_0.layer.add(node_l0_0);
+        //----node #1----------------
+NeuralNode node_l0_1 = new NeuralNode();
+node_l0_1.inputs.addAll(Arrays.asList(32, 33, 35, 4, 5, 40, 41, 43, 12, 44, 46, 47, 16, 18, 20, 25, 26, 28, 29, 30));
+double[] weights_i0_1 = new double[]{0.17287953197956085f, 0.24378301203250885f, 0.1155194565653801f, 0.0628855973482132f, 0.46852344274520874f, 0.11639899015426636f, 0.778391420841217f, 0.6010268926620483f, 0.02100328356027603f, 0.0f, 0.7884190082550049f, 0.13443727791309357f, 0.8106464743614197f, 0.08281826972961426f, 0.18654413521289825f, 0.7588684558868408f, 0.7217851877212524f, 0.5080559253692627f, 0.225515678524971f, 0.09587353467941284f};
+setInWeights(node_l0_1, weights_i0_1);
+l_0.layer.add(node_l0_1);
+        //----node #2----------------
+NeuralNode node_l0_2 = new NeuralNode();
+node_l0_2.inputs.addAll(Arrays.asList(0, 2, 4, 37, 9, 11, 14, 17, 18, 19, 22, 23, 24, 27, 29, 31));
+double[] weights_i0_2 = new double[]{0.7985625267028809f, 0.18706992268562317f, 0.4631633460521698f, 0.8440022468566895f, 0.7139750123023987f, 0.4950534701347351f, 0.20385737717151642f, 0.8509091138839722f, 0.6897050738334656f, 0.6019859910011292f, 0.4312605559825897f, 0.8419485092163086f, 0.0796128511428833f, 0.7805229425430298f, 0.026763800531625748f, 0.7357052564620972f};
+setInWeights(node_l0_2, weights_i0_2);
+l_0.layer.add(node_l0_2);
+        //----node #3----------------
+NeuralNode node_l0_3 = new NeuralNode();
+node_l0_3.inputs.addAll(Arrays.asList(1, 2, 5, 6, 7, 41, 42, 43, 11, 45, 13, 14, 46, 17, 20, 22, 23, 24, 28, 29));
+double[] weights_i0_3 = new double[]{0.19409404695034027f, 0.33284762501716614f, 0.6908673048019409f, 0.4131791293621063f, 0.8544706702232361f, 0.9772456884384155f, 0.9083705544471741f, 0.20159804821014404f, 0.01632692851126194f, 0.230174720287323f, 0.08445752412080765f, 0.7499219179153442f, 0.2190902829170227f, 0.9356812238693237f, 0.025387756526470184f, 0.16327273845672607f, 0.6142731308937073f, 0.9863520860671997f, 0.0786348506808281f, 0.7960689067840576f};
+setInWeights(node_l0_3, weights_i0_3);
+l_0.layer.add(node_l0_3);
+        //----node #4----------------
+NeuralNode node_l0_4 = new NeuralNode();
+node_l0_4.inputs.addAll(Arrays.asList(2, 35, 3, 5, 6, 39, 40, 24, 10, 43, 29));
+double[] weights_i0_4 = new double[]{0.21337318420410156f, 0.3272181749343872f, 0.024398064240813255f, 0.5657896995544434f, 0.8574857115745544f, 0.8077967166900635f, 0.2400726079940796f, 0.7100275158882141f, 0.707057774066925f, 0.1583152562379837f, 0.6577240228652954f};
+setInWeights(node_l0_4, weights_i0_4);
+l_0.layer.add(node_l0_4);
+        //----node #5----------------
+NeuralNode node_l0_5 = new NeuralNode();
+node_l0_5.inputs.addAll(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 10, 11, 13, 15, 16, 17, 18, 19, 20, 21, 28, 29, 31, 35, 36, 38, 43, 44, 45));
+double[] weights_i0_5 = new double[]{0.8040565848350525f, 0.6373722553253174f, 0.4690737724304199f, 0.4412822127342224f, 0.09918486326932907f, 0.45710960030555725f, 0.028981072828173637f, 0.9243578910827637f, 0.052178893238306046f, 0.09715917706489563f, 0.232203409075737f, 0.8015889525413513f, 0.9703677892684937f, 0.34880271553993225f, 0.323324054479599f, 0.07696615159511566f, 0.4965743124485016f, 0.7993025183677673f, 0.42858487367630005f, 0.2642986476421356f, 0.414911150932312f, 0.18969470262527466f, 0.0859145075082779f, 0.6833182573318481f, 0.4096180498600006f, 0.7366180419921875f, 0.9419128894805908f};
+setInWeights(node_l0_5, weights_i0_5);
+l_0.layer.add(node_l0_5);
+        //----node #6----------------
+NeuralNode node_l0_6 = new NeuralNode();
+node_l0_6.inputs.addAll(Arrays.asList(32, 1, 34, 36, 40, 41, 9, 42, 43, 44, 46, 22, 23, 26, 30));
+double[] weights_i0_6 = new double[]{0.8417730927467346f, 0.050946563482284546f, 0.7343487739562988f, 0.6888017654418945f, 0.7959831953048706f, 0.0f, 0.3030935227870941f, 0.9588576555252075f, 0.6321042776107788f, 0.0f, 0.9230970740318298f, 0.8175386786460876f, 0.008186816237866879f, 0.08550574630498886f, 0.6522499322891235f};
+setInWeights(node_l0_6, weights_i0_6);
+l_0.layer.add(node_l0_6);
+        //----node #7----------------
+NeuralNode node_l0_7 = new NeuralNode();
+node_l0_7.inputs.addAll(Arrays.asList(34, 2, 3, 36, 37, 5, 38, 39, 7, 41, 43, 14, 19, 24, 26, 29));
+double[] weights_i0_7 = new double[]{0.2202899158000946f, 0.0f, 0.6526897549629211f, 0.3489231765270233f, 0.825115978717804f, 0.05799005553126335f, 0.5862979888916016f, 0.17850612103939056f, 0.9238560795783997f, 0.026070011779665947f, 0.428445041179657f, 0.46774768829345703f, 0.28924280405044556f, 0.5674349665641785f, 0.21638569235801697f, 0.6732653379440308f};
+setInWeights(node_l0_7, weights_i0_7);
+l_0.layer.add(node_l0_7);
+        //----node #8----------------
+NeuralNode node_l0_8 = new NeuralNode();
+node_l0_8.inputs.addAll(Arrays.asList(0, 32, 1, 34, 2, 4, 38, 40, 9, 10, 42, 11, 44, 12, 45, 15, 16, 18, 21, 22, 24, 25, 27, 28));
+double[] weights_i0_8 = new double[]{0.0732782706618309f, 0.2239290177822113f, 0.0f, 0.29924947023391724f, 0.7319835424423218f, 0.820756196975708f, 0.22172650694847107f, 0.27972978353500366f, 0.9599118232727051f, 0.6147550344467163f, 0.6122992634773254f, 0.0032041280064731836f, 0.16684994101524353f, 0.5911092758178711f, 0.0f, 0.4449886381626129f, 0.6292625665664673f, 0.9082581400871277f, 0.09955548495054245f, 0.2897348701953888f, 0.557896614074707f, 0.3626927137374878f, 0.09849796444177628f, 0.6910975575447083f};
+setInWeights(node_l0_8, weights_i0_8);
+l_0.layer.add(node_l0_8);
+        //----node #9----------------
+NeuralNode node_l0_9 = new NeuralNode();
+node_l0_9.inputs.addAll(Arrays.asList(16, 37, 22, 39, 42, 26, 46));
+double[] weights_i0_9 = new double[]{0.6072273850440979f, 0.7091506123542786f, 0.17417584359645844f, 0.23652435839176178f, 0.8885653018951416f, 0.9984049797058105f, 0.8827217221260071f};
+setInWeights(node_l0_9, weights_i0_9);
+l_0.layer.add(node_l0_9);
+        //----node #10----------------
+NeuralNode node_l0_10 = new NeuralNode();
+node_l0_10.inputs.addAll(Arrays.asList(0, 34, 3, 36, 39, 8, 9, 13, 14, 46, 47, 18, 23, 26, 30));
+double[] weights_i0_10 = new double[]{0.5852706432342529f, 0.6178348660469055f, 0.11374531686306f, 0.0f, 0.0917871817946434f, 0.4039265811443329f, 0.19051873683929443f, 0.6097144484519958f, 0.22388707101345062f, 0.9038597345352173f, 0.3488881587982178f, 0.04214257001876831f, 0.11496679426678125f, 0.3751450777053833f, 0.24728766083717346f};
+setInWeights(node_l0_10, weights_i0_10);
+l_0.layer.add(node_l0_10);
+        //----node #11----------------
+NeuralNode node_l0_11 = new NeuralNode();
+node_l0_11.inputs.addAll(Arrays.asList(18, 2, 35, 22, 26, 11, 27, 29, 13, 30));
+double[] weights_i0_11 = new double[]{0.34025201201438904f, 0.1412394940853119f, 0.040583882480859756f, 0.021201133728027344f, 0.666809618473053f, 0.18055233359336853f, 0.09733457112241473f, 0.07686172425746918f, 0.03926553577184677f, 0.010980329476296902f};
+setInWeights(node_l0_11, weights_i0_11);
+l_0.layer.add(node_l0_11);
+        //----node #12----------------
+NeuralNode node_l0_12 = new NeuralNode();
+node_l0_12.inputs.addAll(Arrays.asList(1, 33, 36, 37, 39, 40, 41, 12, 44, 45, 46, 16, 23, 29, 31));
+double[] weights_i0_12 = new double[]{0.3478587567806244f, 0.8503908514976501f, 0.7604385614395142f, 0.9960996508598328f, 0.2830184996128082f, 0.9901325106620789f, 0.9702298045158386f, 0.504607617855072f, 0.08846282958984375f, 0.4149332642555237f, 0.5973286032676697f, 0.7937283515930176f, 0.41929829120635986f, 0.07914944738149643f, 0.7247284054756165f};
+setInWeights(node_l0_12, weights_i0_12);
+l_0.layer.add(node_l0_12);
+        //----node #13----------------
+NeuralNode node_l0_13 = new NeuralNode();
+node_l0_13.inputs.addAll(Arrays.asList(18, 22, 31));
+double[] weights_i0_13 = new double[]{0.37111878395080566f, 0.21667329967021942f, 0.05189710482954979f};
+setInWeights(node_l0_13, weights_i0_13);
+l_0.layer.add(node_l0_13);
+        //----node #14----------------
+NeuralNode node_l0_14 = new NeuralNode();
+node_l0_14.inputs.addAll(Arrays.asList(3, 47));
+double[] weights_i0_14 = new double[]{0.15534107387065887f, 0.0f};
+setInWeights(node_l0_14, weights_i0_14);
+l_0.layer.add(node_l0_14);
+
+NeuralOutput outputs[] = new NeuralOutput[16];
+        //----output #0----------------
+NeuralOutput out_0 = new NeuralOutput(NeuralNet.Dir.N, NeuralNet.Dir.None);
+out_0.inputs.addAll(Arrays.asList(0, 1, 2, 7, 10, 11));
+double[] weights_o0 = new double[]{0.9788110202778858f, 0.7930197102909391f, 0.008719856851059138f, 0.0958085978521922f, 0.07636351651748619f, 0.09472863787444474f};
+setInWeights(out_0, weights_o0);
+outputs[0] = out_0;
+
+        //----output #1----------------
+NeuralOutput out_1 = new NeuralOutput(NeuralNet.Dir.E, NeuralNet.Dir.None);
+out_1.inputs.addAll(Arrays.asList(1, 2, 3, 7, 10, 11, 13, 14));
+double[] weights_o1 = new double[]{0.17930011215912678f, 0.059598827288688705f, 0.10155734528325433f, 0.06299198766296343f, 0.09188984369474673f, 0.6550558317569443f, 0.9182115316943716f, 0.17884956943478947f};
+setInWeights(out_1, weights_o1);
+outputs[1] = out_1;
+
+        //----output #2----------------
+NeuralOutput out_2 = new NeuralOutput(NeuralNet.Dir.S, NeuralNet.Dir.None);
+out_2.inputs.addAll(Arrays.asList(4, 5, 8));
+double[] weights_o2 = new double[]{0.2056820920182173f, 0.040202360291024974f, 0.6413349707929675f};
+setInWeights(out_2, weights_o2);
+outputs[2] = out_2;
+
+        //----output #3----------------
+NeuralOutput out_3 = new NeuralOutput(NeuralNet.Dir.W, NeuralNet.Dir.None);
+out_3.inputs.addAll(Arrays.asList(0, 3, 5, 6, 9, 12, 13));
+double[] weights_o3 = new double[]{0.08643601951349167f, 0.10403100250483222f, 0.10179171415389432f, 0.951739389987134f, 0.019713437824717572f, 0.2639070279470035f, 0.0637231989928373f};
+setInWeights(out_3, weights_o3);
+outputs[3] = out_3;
+
+        //----output #4----------------
+NeuralOutput out_4 = new NeuralOutput(NeuralNet.Dir.NE, NeuralNet.Dir.None);
+out_4.inputs.addAll(Arrays.asList(0, 2, 3, 4, 5, 6, 8, 12, 13));
+double[] weights_o4 = new double[]{0.0f, 0.13897527374504737f, 0.2020674557495079f, 0.08602597423401026f, 0.027548258048741947f, 0.061159830733051423f, 0.48313358965769637f, 0.7081626239876497f, 0.6607610839349297f};
+setInWeights(out_4, weights_o4);
+outputs[4] = out_4;
+
+        //----output #5----------------
+NeuralOutput out_5 = new NeuralOutput(NeuralNet.Dir.NW, NeuralNet.Dir.None);
+out_5.inputs.addAll(Arrays.asList(0, 5));
+double[] weights_o5 = new double[]{0.1426464467534645f, 0.2104565447284209f};
+setInWeights(out_5, weights_o5);
+outputs[5] = out_5;
+
+        //----output #6----------------
+NeuralOutput out_6 = new NeuralOutput(NeuralNet.Dir.SE, NeuralNet.Dir.None);
+out_6.inputs.addAll(Arrays.asList(1, 5, 7, 8, 9, 13, 14));
+double[] weights_o6 = new double[]{0.2787976805389172f, 0.24162975054590452f, 0.008561625387515148f, 0.29733301082935837f, 0.8892147066881233f, 0.0318294113854668f, 0.20974820967735452f};
+setInWeights(out_6, weights_o6);
+outputs[6] = out_6;
+
+        //----output #7----------------
+NeuralOutput out_7 = new NeuralOutput(NeuralNet.Dir.SW, NeuralNet.Dir.None);
+out_7.inputs.addAll(Arrays.asList(3, 7, 10));
+double[] weights_o7 = new double[]{0.9640739349926928f, 0.9162661937270487f, 0.0011005684239679958f};
+setInWeights(out_7, weights_o7);
+outputs[7] = out_7;
+
+        //----output #8----------------
+NeuralOutput out_8 = new NeuralOutput(NeuralNet.Dir.None, NeuralNet.Dir.N);
+out_8.inputs.addAll(Arrays.asList(2, 8, 13));
+double[] weights_o8 = new double[]{0.21459033084744106f, 0.7964933258562786f, 0.0745678038222436f};
+setInWeights(out_8, weights_o8);
+outputs[8] = out_8;
+
+        //----output #9----------------
+NeuralOutput out_9 = new NeuralOutput(NeuralNet.Dir.None, NeuralNet.Dir.E);
+out_9.inputs.addAll(Arrays.asList(1, 4, 6, 8, 9, 10, 11, 13, 14));
+double[] weights_o9 = new double[]{0.07811768608552516f, 0.27880240989709903f, 0.6442604326906832f, 0.3144960474690959f, 0.32063873086564987f, 0.4548396357674891f, 0.346000741363652f, 0.5376582613855875f, 0.9798852718367981f};
+setInWeights(out_9, weights_o9);
+outputs[9] = out_9;
+
+        //----output #10----------------
+NeuralOutput out_10 = new NeuralOutput(NeuralNet.Dir.None, NeuralNet.Dir.S);
+out_10.inputs.addAll(Arrays.asList(0, 1, 2, 3, 4, 8, 11, 12, 13));
+double[] weights_o10 = new double[]{0.5959382157507654f, 0.6522681487228936f, 0.06944068927862834f, 0.043276369704365214f, 0.0037956905612238634f, 0.16583878611262537f, 0.06916110013652843f, 0.018351587652083667f, 0.2946327513121664f};
+setInWeights(out_10, weights_o10);
+outputs[10] = out_10;
+
+        //----output #11----------------
+NeuralOutput out_11 = new NeuralOutput(NeuralNet.Dir.None, NeuralNet.Dir.W);
+out_11.inputs.addAll(Arrays.asList(8, 9, 11, 13));
+double[] weights_o11 = new double[]{0.11129015309541967f, 0.42802668142884426f, 0.9928078171405734f, 0.9478846623861362f};
+setInWeights(out_11, weights_o11);
+outputs[11] = out_11;
+
+        //----output #12----------------
+NeuralOutput out_12 = new NeuralOutput(NeuralNet.Dir.None, NeuralNet.Dir.NE);
+out_12.inputs.addAll(Arrays.asList(3, 7, 8, 10));
+double[] weights_o12 = new double[]{0.7607255486504556f, 0.993146084464388f, 0.07498031572301189f, 0.06097264494479293f};
+setInWeights(out_12, weights_o12);
+outputs[12] = out_12;
+
+        //----output #13----------------
+NeuralOutput out_13 = new NeuralOutput(NeuralNet.Dir.None, NeuralNet.Dir.NW);
+out_13.inputs.addAll(Arrays.asList(1, 11));
+double[] weights_o13 = new double[]{0.14478095126782342f, 0.16534410165718105f};
+setInWeights(out_13, weights_o13);
+outputs[13] = out_13;
+
+        //----output #14----------------
+NeuralOutput out_14 = new NeuralOutput(NeuralNet.Dir.None, NeuralNet.Dir.SE);
+out_14.inputs.addAll(Arrays.asList(2, 5, 6, 9));
+double[] weights_o14 = new double[]{0.5380917394320531f, 0.42444184203679236f, 0.026387459341804864f, 0.06637943291153037f};
+setInWeights(out_14, weights_o14);
+outputs[14] = out_14;
+
+        //----output #15----------------
+NeuralOutput out_15 = new NeuralOutput(NeuralNet.Dir.None, NeuralNet.Dir.SW);
+out_15.inputs.addAll(Arrays.asList(1, 10));
+double[] weights_o15 = new double[]{0.06470619056957083f, 0.0698561717670455f};
+setInWeights(out_15, weights_o15);
+outputs[15] = out_15;
+
+NeuralNet net = new NeuralNet(layers, outputs);
+net.type = NeuralNet.GenType.Mutated;
+net.generationNumber = 0;
+net.parent1 = 0;
+net.parent2 = 0;
+net.score = 118529;
+
+return net;
+}
